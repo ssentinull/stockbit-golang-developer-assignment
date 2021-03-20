@@ -8,6 +8,7 @@ This repository consists of three solutions for the questions listed in the onli
 
 1. Simple Databse Query.
 2. Refactor Function.
+3. Logic Test.
 
 ## Authors
 
