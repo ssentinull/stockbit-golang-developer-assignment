@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"net/http"
 	"os"
 
@@ -45,5 +44,5 @@ func main() {
 		Addr: config.ServerPort(),
 	}
 
-	log.Fatal(e.StartServer(s))
+	logrus.Fatal(e.StartServer(s))
 }

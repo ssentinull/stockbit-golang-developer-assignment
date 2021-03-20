@@ -3,6 +3,7 @@ package usecase
 import (
 	"context"
 
+	"github.com/sirupsen/logrus"
 	"github.com/ssentinull/stockbit-assignment/pkg/domain"
 )
 
@@ -16,8 +17,13 @@ func NewMovieUsecase(mr domain.MovieRepository) domain.MovieUsecase {
 	}
 }
 
-func (mu *movieUsecase) GetMovies(ctx context.Context) string {
-	movies := mu.movieRepository.ReadMovies(ctx)
+func (mu *movieUsecase) GetMovies(ctx context.Context) ([]domain.Movie, error) {
+	movies, err := mu.movieRepository.ReadMovies(ctx)
+	if err != nil {
+		logrus.WithField("context", ctx).Error(err)
 
-	return "get movies -> " + movies
+		return nil, err
+	}
+
+	return movies, nil
 }
