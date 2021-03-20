@@ -25,6 +25,15 @@ func Env() string {
 	return "development"
 }
 
+func OMDBKey() string {
+	val, ok := os.LookupEnv("OMDB_API_KEY")
+	if !ok {
+		logrus.Fatal("OMDB_API_KEY not provided")
+	}
+
+	return val
+}
+
 func ServerPort() string {
 	return fmt.Sprintf(":%s", os.Getenv("SERVER_PORT"))
 }
