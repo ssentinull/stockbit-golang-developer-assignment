@@ -8,6 +8,9 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 	"github.com/ssentinull/stockbit-assignment/config"
+	_movieHttpHndlr "github.com/ssentinull/stockbit-assignment/pkg/movie/handler/http"
+	_movieRepo "github.com/ssentinull/stockbit-assignment/pkg/movie/repository"
+	_movieUcase "github.com/ssentinull/stockbit-assignment/pkg/movie/usecase"
 )
 
 func initLogger() {
@@ -34,6 +37,10 @@ func init() {
 
 func main() {
 	e := echo.New()
+	movieRepo := _movieRepo.NewMovieRepository()
+	movieUsecase := _movieUcase.NewMovieUsecase(movieRepo)
+	_movieHttpHndlr.NewMovieHttpHandler(e, movieUsecase)
+
 	s := &http.Server{
 		Addr: config.ServerPort(),
 	}
