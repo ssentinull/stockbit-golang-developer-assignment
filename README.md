@@ -7,6 +7,7 @@ An online coding test solutions for the Golang Developer position at [StockBit](
 This repository consists of three solutions for the questions listed in the online test sheet. The solutions are as follows:
 
 1. Simple Databse Query.
+2. Refactor Function.
 
 ## Authors
 
