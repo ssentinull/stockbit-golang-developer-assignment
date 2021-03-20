@@ -1,4 +1,4 @@
-module github.com/ssentinull/golang-developer-assignment-stockbit/2-movies-microservice
+module github.com/ssentinull/stockbit-assignment
 
 go 1.15
 

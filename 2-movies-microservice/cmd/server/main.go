@@ -7,7 +7,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
-	"github.com/ssentinull/golang-developer-assignment-stockbit/2-movies-microservice/config"
+	"github.com/ssentinull/stockbit-assignment/config"
 )
 
 func initLogger() {
