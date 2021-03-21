@@ -27,12 +27,14 @@ func (mu *movieUsecase) GetMovieByTitle(ctx context.Context, csr *httpUtils.Curs
 		"cursor":  utils.Dump(csr),
 	})
 
-	movie, err := mu.movieOMDBRepository.ReadMovieByTitle(ctx, csr)
+	omdbResponse, err := mu.movieOMDBRepository.ReadMovieByTitle(ctx, csr)
 	if err != nil {
 		logger.Error(err)
 
 		return domain.MovieDetails{}, err
 	}
+
+	movieDetails := domain.OMDBResponseToMovieDetails(omdbResponse)
 
 	err = mu.movieMySQLRepository.CreateGetMovieByTitleLog(ctx, csr)
 	if err != nil {
@@ -41,7 +43,7 @@ func (mu *movieUsecase) GetMovieByTitle(ctx context.Context, csr *httpUtils.Curs
 		return domain.MovieDetails{}, err
 	}
 
-	return movie, nil
+	return movieDetails, nil
 }
 
 func (mu *movieUsecase) GetMovies(ctx context.Context, csr *httpUtils.Cursor) ([]domain.Movie, error) {

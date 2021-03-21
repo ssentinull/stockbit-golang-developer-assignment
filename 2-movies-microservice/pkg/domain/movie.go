@@ -3,10 +3,11 @@ package domain
 import (
 	"context"
 
+	"github.com/ssentinull/stockbit-assignment/pkg/utils"
 	httpUtils "github.com/ssentinull/stockbit-assignment/pkg/utils/http"
 )
 
-type OMDBSearchResponse struct {
+type OMDBSearchMoviesResponse struct {
 	Payload       []Movie `json:"Search"`
 	TotalRowCount string  `json:"totalResults"`
 	Status        string  `json:"Response"`
@@ -21,7 +22,7 @@ type Movie struct {
 	Poster string `json:"Poster"`
 }
 
-type MovieDetails struct {
+type OMDBGetMovieResponse struct {
 	Title             string   `json:"Title"`
 	ReleaseYear       string   `json:"Year"`
 	AgeRating         string   `json:"Rated"`
@@ -54,13 +55,79 @@ type Rating struct {
 	Value  string `json:"Value"`
 }
 
+type MovieDetails struct {
+	Title               string
+	ReleaseYear         string
+	AgeRating           string
+	ReleaseDate         string
+	Runtime             string
+	Genre               []string
+	Directors           []string
+	Writers             []string
+	Actors              []string
+	Plot                string
+	Languages           []string
+	Countries           []string
+	Awards              string
+	Poster              string
+	Ratings             []Rating
+	Metascore           string
+	IMDBRating          string
+	IMDBVotes           string
+	IMDBID              string
+	Type                string
+	DVDReleaseDate      string
+	BoxOffice           string
+	ProductionCompanies []string
+	Website             string
+	ErrorMessage        string
+}
+
+func OMDBResponseToMovieDetails(omdbRes OMDBGetMovieResponse) MovieDetails {
+	genres := utils.SplitStringByComma(omdbRes.Genre)
+	directors := utils.SplitStringByComma(omdbRes.Director)
+	writers := utils.SplitStringByComma(omdbRes.Writer)
+	actors := utils.SplitStringByComma(omdbRes.Actors)
+	languages := utils.SplitStringByComma(omdbRes.Language)
+	countries := utils.SplitStringByComma(omdbRes.Country)
+	productionCompanies := utils.SplitStringByComma(omdbRes.ProductionCompany)
+
+	return MovieDetails{
+		Title:               omdbRes.Title,
+		ReleaseYear:         omdbRes.ReleaseYear,
+		AgeRating:           omdbRes.AgeRating,
+		ReleaseDate:         omdbRes.ReleaseDate,
+		Runtime:             omdbRes.Runtime,
+		Genre:               genres,
+		Directors:           directors,
+		Writers:             writers,
+		Actors:              actors,
+		Plot:                omdbRes.Plot,
+		Languages:           languages,
+		Countries:           countries,
+		Awards:              omdbRes.Awards,
+		Poster:              omdbRes.Poster,
+		Ratings:             omdbRes.Ratings,
+		Metascore:           omdbRes.Metascore,
+		IMDBRating:          omdbRes.IMDBRating,
+		IMDBVotes:           omdbRes.IMDBVotes,
+		IMDBID:              omdbRes.IMDBID,
+		Type:                omdbRes.Type,
+		DVDReleaseDate:      omdbRes.DVDReleaseDate,
+		BoxOffice:           omdbRes.BoxOffice,
+		ProductionCompanies: productionCompanies,
+		Website:             omdbRes.Website,
+		ErrorMessage:        omdbRes.ErrorMessage,
+	}
+}
+
 type MovieUsecase interface {
 	GetMovieByTitle(context.Context, *httpUtils.Cursor) (MovieDetails, error)
 	GetMovies(context.Context, *httpUtils.Cursor) ([]Movie, error)
 }
 
 type MovieOMDBRepository interface {
-	ReadMovieByTitle(context.Context, *httpUtils.Cursor) (MovieDetails, error)
+	ReadMovieByTitle(context.Context, *httpUtils.Cursor) (OMDBGetMovieResponse, error)
 	ReadMovies(context.Context, *httpUtils.Cursor) ([]Movie, error)
 }
 
