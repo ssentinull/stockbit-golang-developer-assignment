@@ -38,5 +38,7 @@ func (mhh *movieHttpHandler) FetchMovies(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-	return c.JSON(http.StatusOK, newMovieResponses(movies))
+	movieResponses := newMovieResponses(movies)
+
+	return c.JSON(http.StatusOK, httpUtils.NewCursorResponse(cursor, movieResponses))
 }
