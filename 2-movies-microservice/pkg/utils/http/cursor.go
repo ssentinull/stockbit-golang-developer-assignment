@@ -8,6 +8,7 @@ import (
 type Cursor struct {
 	page       int
 	searchWord string
+	title      string
 }
 
 func (c *Cursor) GetPage() int {
@@ -18,10 +19,15 @@ func (c *Cursor) GetSearchWord() string {
 	return c.searchWord
 }
 
+func (c *Cursor) GetTitle() string {
+	return c.title
+}
+
 func NewCursor(c echo.Context) (*Cursor, error) {
 	var err error
+	title := c.Param("title")
 	searchWord := c.QueryParam("searchword")
-	if searchWord == "" {
+	if title == "" && searchWord == "" {
 		err = ErrBadQueryParams
 
 		return nil, err
@@ -35,6 +41,7 @@ func NewCursor(c echo.Context) (*Cursor, error) {
 	csr := &Cursor{
 		page:       page,
 		searchWord: searchWord,
+		title:      title,
 	}
 
 	return csr, nil
