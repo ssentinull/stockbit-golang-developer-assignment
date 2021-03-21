@@ -5,6 +5,8 @@ import (
 
 	"github.com/sirupsen/logrus"
 	"github.com/ssentinull/stockbit-assignment/pkg/domain"
+	"github.com/ssentinull/stockbit-assignment/pkg/utils"
+	httpUtils "github.com/ssentinull/stockbit-assignment/pkg/utils/http"
 )
 
 type movieUsecase struct {
@@ -17,10 +19,13 @@ func NewMovieUsecase(mr domain.MovieRepository) domain.MovieUsecase {
 	}
 }
 
-func (mu *movieUsecase) GetMovies(ctx context.Context) ([]domain.Movie, error) {
-	movies, err := mu.movieRepository.ReadMovies(ctx)
+func (mu *movieUsecase) GetMovies(ctx context.Context, csr *httpUtils.Cursor) ([]domain.Movie, error) {
+	movies, err := mu.movieRepository.ReadMovies(ctx, csr)
 	if err != nil {
-		logrus.WithField("context", ctx).Error(err)
+		logrus.WithFields(logrus.Fields{
+			"context": utils.Dump(ctx),
+			"cursor":  utils.Dump(csr),
+		}).Error(err)
 
 		return nil, err
 	}

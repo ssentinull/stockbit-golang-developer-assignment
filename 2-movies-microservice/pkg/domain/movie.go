@@ -1,6 +1,10 @@
 package domain
 
-import "context"
+import (
+	"context"
+
+	httpUtils "github.com/ssentinull/stockbit-assignment/pkg/utils/http"
+)
 
 type OMDBSearchResponse struct {
 	Payload       []Movie `json:"Search"`
@@ -18,9 +22,9 @@ type Movie struct {
 }
 
 type MovieUsecase interface {
-	GetMovies(context.Context) ([]Movie, error)
+	GetMovies(context.Context, *httpUtils.Cursor) ([]Movie, error)
 }
 
 type MovieRepository interface {
-	ReadMovies(context.Context) ([]Movie, error)
+	ReadMovies(context.Context, *httpUtils.Cursor) ([]Movie, error)
 }
