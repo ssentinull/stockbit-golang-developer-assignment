@@ -10,12 +10,14 @@ import (
 )
 
 type movieUsecase struct {
-	movieOMDBRepository domain.MovieOMDBRepository
+	movieOMDBRepository  domain.MovieOMDBRepository
+	movieMySQLRepository domain.MovieMySQLRepository
 }
 
-func NewMovieUsecase(mor domain.MovieOMDBRepository) domain.MovieUsecase {
+func NewMovieUsecase(mor domain.MovieOMDBRepository, mmr domain.MovieMySQLRepository) domain.MovieUsecase {
 	return &movieUsecase{
-		movieOMDBRepository: mor,
+		movieOMDBRepository:  mor,
+		movieMySQLRepository: mmr,
 	}
 }
 

@@ -28,3 +28,5 @@ type MovieUsecase interface {
 type MovieOMDBRepository interface {
 	ReadMovies(context.Context, *httpUtils.Cursor) ([]Movie, error)
 }
+
+type MovieMySQLRepository interface{}
