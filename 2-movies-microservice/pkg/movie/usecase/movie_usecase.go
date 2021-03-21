@@ -34,6 +34,13 @@ func (mu *movieUsecase) GetMovieByTitle(ctx context.Context, csr *httpUtils.Curs
 		return domain.MovieDetails{}, err
 	}
 
+	err = mu.movieMySQLRepository.CreateGetMovieByTitleLog(ctx, csr)
+	if err != nil {
+		logger.Error(err)
+
+		return domain.MovieDetails{}, err
+	}
+
 	return movie, nil
 }
 
