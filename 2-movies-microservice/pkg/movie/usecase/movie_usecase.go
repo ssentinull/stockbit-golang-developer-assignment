@@ -10,17 +10,17 @@ import (
 )
 
 type movieUsecase struct {
-	movieRepository domain.MovieRepository
+	movieOMDBRepository domain.MovieOMDBRepository
 }
 
-func NewMovieUsecase(mr domain.MovieRepository) domain.MovieUsecase {
+func NewMovieUsecase(mor domain.MovieOMDBRepository) domain.MovieUsecase {
 	return &movieUsecase{
-		movieRepository: mr,
+		movieOMDBRepository: mor,
 	}
 }
 
 func (mu *movieUsecase) GetMovies(ctx context.Context, csr *httpUtils.Cursor) ([]domain.Movie, error) {
-	movies, err := mu.movieRepository.ReadMovies(ctx, csr)
+	movies, err := mu.movieOMDBRepository.ReadMovies(ctx, csr)
 	if err != nil {
 		logrus.WithFields(logrus.Fields{
 			"context": utils.Dump(ctx),

@@ -1,4 +1,4 @@
-package repository
+package omdb
 
 import (
 	"context"
@@ -12,13 +12,13 @@ import (
 	httpUtils "github.com/ssentinull/stockbit-assignment/pkg/utils/http"
 )
 
-type movieRepository struct{}
+type movieOMDBRepository struct{}
 
-func NewMovieRepository() domain.MovieRepository {
-	return &movieRepository{}
+func NewMovieOMDBRepository() domain.MovieOMDBRepository {
+	return &movieOMDBRepository{}
 }
 
-func (mr *movieRepository) ReadMovies(ctx context.Context, csr *httpUtils.Cursor) ([]domain.Movie, error) {
+func (mr *movieOMDBRepository) ReadMovies(ctx context.Context, csr *httpUtils.Cursor) ([]domain.Movie, error) {
 	logger := logrus.WithFields(logrus.Fields{
 		"context": utils.Dump(ctx),
 		"cursor":  utils.Dump(csr),
