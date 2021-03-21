@@ -29,13 +29,13 @@ type movieDetailsResponse struct {
 	AgeRating         string                         `json:"age_rating"`
 	ReleaseDate       string                         `json:"release_date"`
 	Runtime           string                         `json:"tuntime"`
-	Genre             string                         `json:"genre"`
-	Director          string                         `json:"director"`
-	Writer            string                         `json:"writer"`
+	Genre             string                         `json:"genres"`
+	Director          string                         `json:"directors"`
+	Writer            string                         `json:"writers"`
 	Actors            string                         `json:"actors"`
 	Plot              string                         `json:"plot"`
 	Language          string                         `json:"languages"`
-	Country           string                         `json:"country"`
+	Country           string                         `json:"countries"`
 	Awards            string                         `json:"awards"`
 	Poster            string                         `json:"poster"`
 	Ratings           []*movieDetailsRatingsResponse `json:"ratings"`
@@ -46,7 +46,7 @@ type movieDetailsResponse struct {
 	Type              string                         `json:"type"`
 	DVDReleaseDate    string                         `json:"dvd_release_date"`
 	BoxOffice         string                         `json:"box_office"`
-	ProductionCompany string                         `json:"production_company"`
+	ProductionCompany string                         `json:"production_companies"`
 	Website           string                         `json:"website"`
 	ErrorMessage      string                         `json:"error_message"`
 }
