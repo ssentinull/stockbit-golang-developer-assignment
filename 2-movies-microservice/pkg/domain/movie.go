@@ -65,5 +65,5 @@ type MovieOMDBRepository interface {
 }
 
 type MovieMySQLRepository interface {
-	CreateSearchMovieLog(context.Context, *httpUtils.Cursor) error
+	CreateGetMoviesLog(context.Context, *httpUtils.Cursor) error
 }

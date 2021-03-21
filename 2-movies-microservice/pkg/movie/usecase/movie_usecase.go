@@ -50,7 +50,7 @@ func (mu *movieUsecase) GetMovies(ctx context.Context, csr *httpUtils.Cursor) ([
 		return nil, err
 	}
 
-	err = mu.movieMySQLRepository.CreateSearchMovieLog(ctx, csr)
+	err = mu.movieMySQLRepository.CreateGetMoviesLog(ctx, csr)
 	if err != nil {
 		logger.Error(err)
 

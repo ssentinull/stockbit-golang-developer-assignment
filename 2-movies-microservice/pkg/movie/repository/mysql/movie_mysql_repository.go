@@ -21,7 +21,7 @@ func NewMovieMySQLRepository(dummyDB *sql.DB) domain.MovieMySQLRepository {
 	}
 }
 
-func (mmr *movieMySQLRepository) CreateSearchMovieLog(ctx context.Context, csr *httpUtils.Cursor) error {
+func (mmr *movieMySQLRepository) CreateGetMoviesLog(ctx context.Context, csr *httpUtils.Cursor) error {
 	logger := logrus.WithFields(logrus.Fields{
 		"context": utils.Dump(ctx),
 		"cursor":  utils.Dump(csr),
