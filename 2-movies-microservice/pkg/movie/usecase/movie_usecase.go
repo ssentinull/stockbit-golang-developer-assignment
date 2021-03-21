@@ -21,6 +21,22 @@ func NewMovieUsecase(mor domain.MovieOMDBRepository, mmr domain.MovieMySQLReposi
 	}
 }
 
+func (mu *movieUsecase) GetMovieByTitle(ctx context.Context, csr *httpUtils.Cursor) (domain.MovieDetails, error) {
+	logger := logrus.WithFields(logrus.Fields{
+		"context": utils.Dump(ctx),
+		"cursor":  utils.Dump(csr),
+	})
+
+	movie, err := mu.movieOMDBRepository.ReadMovieByTitle(ctx, csr)
+	if err != nil {
+		logger.Error(err)
+
+		return domain.MovieDetails{}, err
+	}
+
+	return movie, nil
+}
+
 func (mu *movieUsecase) GetMovies(ctx context.Context, csr *httpUtils.Cursor) ([]domain.Movie, error) {
 	logger := logrus.WithFields(logrus.Fields{
 		"context": utils.Dump(ctx),

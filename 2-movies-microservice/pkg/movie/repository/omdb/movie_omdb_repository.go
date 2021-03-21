@@ -12,10 +12,40 @@ import (
 	httpUtils "github.com/ssentinull/stockbit-assignment/pkg/utils/http"
 )
 
+var (
+	omdbAPIBaseURL = "http://www.omdbapi.com/?"
+	omdbAPIKey     = config.OMDBKey()
+)
+
 type movieOMDBRepository struct{}
 
 func NewMovieOMDBRepository() domain.MovieOMDBRepository {
 	return &movieOMDBRepository{}
+}
+
+func (mr *movieOMDBRepository) ReadMovieByTitle(ctx context.Context, csr *httpUtils.Cursor) (domain.MovieDetails, error) {
+	logger := logrus.WithFields(logrus.Fields{
+		"context": utils.Dump(ctx),
+		"cursor":  utils.Dump(csr),
+	})
+
+	movieDetails := new(domain.MovieDetails)
+	requestURL := genReadMovieByTitle(omdbAPIBaseURL, omdbAPIKey, csr)
+	requestRes, err := http.Get(requestURL)
+	if err != nil {
+		logger.Error(err)
+		return *movieDetails, err
+	}
+	defer requestRes.Body.Close()
+
+	err = json.NewDecoder(requestRes.Body).Decode(movieDetails)
+	if err != nil {
+		logger.Error(err)
+
+		return *movieDetails, err
+	}
+
+	return *movieDetails, nil
 }
 
 func (mr *movieOMDBRepository) ReadMovies(ctx context.Context, csr *httpUtils.Cursor) ([]domain.Movie, error) {
@@ -24,8 +54,6 @@ func (mr *movieOMDBRepository) ReadMovies(ctx context.Context, csr *httpUtils.Cu
 		"cursor":  utils.Dump(csr),
 	})
 
-	omdbAPIBaseURL := "http://www.omdbapi.com/?"
-	omdbAPIKey := config.OMDBKey()
 	requestURL := genReadMoviesURL(omdbAPIBaseURL, omdbAPIKey, csr)
 	requestRes, err := http.Get(requestURL)
 	if err != nil {

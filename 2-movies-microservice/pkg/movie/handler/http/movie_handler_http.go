@@ -21,6 +21,7 @@ func NewMovieHttpHandler(e *echo.Echo, mu domain.MovieUsecase) {
 	api := e.Group("/api")
 	v1 := api.Group("/v1")
 	v1.GET("/movies", handler.FetchMovies)
+	v1.GET("/movies/:title", handler.FetchMovieByTitle)
 }
 
 func (mhh *movieHttpHandler) FetchMovies(c echo.Context) error {
@@ -41,4 +42,24 @@ func (mhh *movieHttpHandler) FetchMovies(c echo.Context) error {
 	movieResponses := newMovieResponses(movies)
 
 	return c.JSON(http.StatusOK, httpUtils.NewCursorResponse(cursor, movieResponses))
+}
+
+func (mhh *movieHttpHandler) FetchMovieByTitle(c echo.Context) error {
+	cursor, err := httpUtils.NewCursor(c)
+	if err != nil {
+		logrus.Error(err)
+
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	movie, err := mhh.movieUsecase.GetMovieByTitle(c.Request().Context(), cursor)
+	if err != nil {
+		logrus.Error(err)
+
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	movieDetailsRes := newMovieDetailsResponse(movie)
+
+	return c.JSON(http.StatusOK, httpUtils.NewCursorResponse(cursor, movieDetailsRes))
 }
