@@ -1,6 +1,9 @@
 package utils
 
-import "strconv"
+import (
+	"fmt"
+	"strconv"
+)
 
 func StringToInt(s string) int {
 	i, err := strconv.Atoi(s)
@@ -9,4 +12,8 @@ func StringToInt(s string) int {
 	}
 
 	return i
+}
+
+func IntToString(i int) string {
+	return fmt.Sprint(i)
 }
